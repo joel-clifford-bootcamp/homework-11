@@ -27,7 +27,7 @@ app.get("/api/notes",(req,res) => {
             return;
         }
 
-        res.json(data);
+        res.json(JSON.parse(data));
         res.end();
     });
 });
@@ -44,6 +44,8 @@ app.post("/api/notes",(req,res) => {
         
         const notes = JSON.parse(data);
 
+        note.id = notes.length + 1;
+
         notes.push(note);
 
         fs.writeFile(dbPath,JSON.stringify(notes),(err) => {
@@ -51,6 +53,8 @@ app.post("/api/notes",(req,res) => {
                 console.log("Error writing to db.json");
             else
                 console.log("Note appended");
+                res.json(notes);
+                res.end();
         });
     });
 
@@ -64,18 +68,21 @@ app.delete("/api/notes/:id",(req,res) =>{
 
         if(err) {
             console.log("Error reading db.json");
+            res.end();
             return;
         }
 
-        const notes = JSON.parse(data);
-
-        notes.pop[id];
+        const notes = JSON.parse(data).filter(note => note.id != id);
 
         fs.writeFile(dbPath,JSON.stringify(notes),(err) => {
             if(err)
                 console.log("Error writing to db.json!");
-            else
+            else {
                 console.log("Note deleted");
+                res.json(notes);
+            }
+
+            res.end();
         });
     });
 
