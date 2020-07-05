@@ -15,7 +15,7 @@ app.use(express.static("public"));
 // index.html served by default by express.static()
 
 // serve the notes.html
-app.get("/",(req,res) => {
+app.get("/notes",(req,res) => {
     res.sendFile(path.join(__dirname,"public/notes.html"));
 });
 // Return all notes from db.json
