@@ -7,7 +7,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000 ;
 const dbPath = "./db/db.json";
 
 app.use(express.static("public"));
